@@ -934,9 +934,10 @@ class CartCore extends ObjectModel
 		$context = Context::getContext()->cloneContext();
 		$context->cart = $this;
 		Cache::clean('getContextualValue_*');
-		if ($auto_add_cart_rule)
+		if ($auto_add_cart_rule){
+			CartRule::autoRemoveFromCart($context);
 			CartRule::autoAddToCart($context);
-
+		}
 		if ($product->customizable)
 			return $this->_updateCustomizationQuantity((int)$quantity, (int)$id_customization, (int)$id_product, (int)$id_product_attribute, (int)$id_address_delivery, $operator);
 		else
